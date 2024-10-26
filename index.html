@@ -8,27 +8,41 @@
   </head>
   <body>
     <div class="calculator-wrap">
-      <div class="result">0</div>
+      <div class="result" id="result">0</div>
       <div class="numbers-grid">
-        <div class="button clear gray">AC</div>
-        <div class="button toggle-negative gray">+/-</div>
+        <div class="button clear gray" onclick="clearDisplay() ">AC</div>
+        <div class="button toggle-negative gray" onclick="toggleNegative()">
+          +/-
+        </div>
         <div class="button percent gray">%</div>
-        <div class="button divide orange">/</div>
-        <div class="button number black">7</div>
-        <div class="button number black">8</div>
-        <div class="button number black">9</div>
-        <div class="button multiply orange">x</div>
-        <div class="button number black">4</div>
-        <div class="button number black">5</div>
-        <div class="button number black">6</div>
-        <div class="button minus orange">-</div>
-        <div class="button number black">1</div>
-        <div class="button number black">2</div>
-        <div class="button number black">3</div>
-        <div class="button add orange">+</div>
-        <div class="button zero number black">0</div>
+        <div class="button divide orange" onclick="evaluateByOperators('/')">
+          /
+        </div>
+        <div class="button number black" onclick="displayValue('7')">7</div>
+        <div class="button number black" onclick="displayValue('8')">8</div>
+        <div class="button number black" onclick="displayValue('9')">9</div>
+        <div class="button multiply orange" onclick="evaluateByOperators('*')">
+          x
+        </div>
+        <div class="button number black" onclick="displayValue('4')">4</div>
+        <div class="button number black" onclick="displayValue('5')">5</div>
+        <div class="button number black" onclick="displayValue('6')">6</div>
+        <div class="button minus orange" onclick="evaluateByOperators('-')">
+          -
+        </div>
+        <div class="button number black" onclick="displayValue('1')">1</div>
+        <div class="button number black" onclick="displayValue('2')">2</div>
+        <div class="button number black" onclick="displayValue('3')">3</div>
+        <div class="button add orange" onclick="evaluateByOperators('+')">
+          +
+        </div>
+        <div class="button zero number black" onclick="displayValue('0')">
+          0
+        </div>
         <div class="button dot black">.</div>
-        <div class="button equal orange">=</div>
+        <div class="button equal orange" onclick=" evaluateCalculation()">
+          =
+        </div>
       </div>
     </div>
     <script src="main.js"></script>
