@@ -34,6 +34,10 @@ function evaluateByOperators(value) {
 }
 
 function evaluateCalculation() {
+  if (!right) {
+    right = left;
+    clearCheckedOperator(operator);
+  }
   formatResult(left, operator, right);
   right = eval(left + operator + right);
   left = "";
