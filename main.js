@@ -37,7 +37,7 @@ function evaluateCalculation() {
 }
 
 function displayValue(value) {
-  if (value === "0" && right == 0) {
+  if (value === "0" && right === "0") {
     return;
   }
   if (right === "0") {
@@ -46,27 +46,32 @@ function displayValue(value) {
   if (right === "-0") {
     right = "-";
   }
-  if (result && right) {
+  if (result && !operator) {
+    result = "";
     right = "";
   }
   right += value;
   displayCalculation(right);
 }
 
-function clearDisplay() {
-  left = "";
-  right = "0";
-  operator = "";
+function displayDot() {
+  right += ".";
   displayCalculation(right);
 }
 
-function displayCalculation(value) {
-  resultElement.innerHTML = value;
-  displayInConsole();
-}
-
-function displayInConsole() {
-  console.log(`Left: ${left}; Operator: ${operator}; Right: ${right}`);
+function makePercentage() {
+  if (!operator) {
+    right = eval(right / 100);
+    displayCalculation(right);
+  }
+  if (operator === "+" || operator === "-") {
+    right = eval((right / 100) * left);
+    displayInConsole();
+  }
+  if (operator === "*" || operator === "/") {
+    right = eval(right / 100);
+    displayCalculation(right);
+  }
 }
 
 function toggleNegative() {
@@ -79,11 +84,31 @@ function toggleNegative() {
   displayCalculation(right);
 }
 
+function clearDisplay() {
+  left = "";
+  right = "0";
+  operator = "";
+  result = "";
+  displayCalculation(right);
+  console.clear();
+}
+
+function displayCalculation(value) {
+  resultElement.innerHTML = value;
+  displayInConsole();
+}
+
 function formatResult(left, operator, right) {
   result = Number(eval(left + operator + right));
   const decimal = result.toString().split(".")[1]?.length || 0;
   console.log(`result: ${result}, decimal:${decimal}`);
 
-  const value = result.toFixed(Math.min(8, decimal));
+  const value = Number(result).toFixed(Math.min(8, decimal));
   displayCalculation(value);
+}
+
+function displayInConsole() {
+  console.log(
+    `Left: ${left}; Operator: ${operator}; Right: ${right}; Result = ${result}`
+  );
 }
