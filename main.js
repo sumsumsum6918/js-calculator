@@ -23,6 +23,7 @@ function evaluateByOperators(value) {
   } else if (operator) {
     formatResult(left, operator, right);
     left = eval(left + operator + right);
+    operator = value;
     right = "";
     displayInConsole();
   }
@@ -97,13 +98,24 @@ function clearDisplay() {
 }
 
 function displayCalculation(value) {
+  console.log(value);
+  console.log(value.length);
+  // if (value.length > 10) {
+  //   const decimalLength = value.toString().split(".")[1]?.length || 0;
+  //   const length = 10 - Number(decimalLength);
+
+  //   const decimalResult = Number(value).toFixed(Math.min(9, length));
+  //   value = decimalResult;
+  // }
+
   resultElement.innerHTML = value;
   displayInConsole();
 }
 
 function formatResult(left, operator, right) {
-  result = Number(eval(left + operator + right));
+  result = eval(left + operator + right);
   const decimal = result.toString().split(".")[1]?.length || 0;
+
   console.log(`result: ${result}, decimal:${decimal}`);
 
   const value = Number(result).toFixed(Math.min(8, decimal));
