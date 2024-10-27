@@ -116,7 +116,7 @@ function clearDisplay() {
 
 function displayCalculation(value) {
   console.log(value);
-  console.log(value.length);
+  console.log(value.toString.length);
   // if (value.length > 10) {
   //   const decimalLength = value.toString().split(".")[1]?.length || 0;
   //   const length = 10 - Number(decimalLength);
