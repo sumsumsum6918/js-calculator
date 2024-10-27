@@ -62,6 +62,7 @@ function displayValue(value) {
   right += value;
   clearCheckedOperator(operator);
   displayCalculation(right);
+  toggleClearAllClear();
 }
 
 function displayDot() {
@@ -104,6 +105,7 @@ function clearDisplay() {
   result = "";
   displayCalculation(right);
   clearCheckedOperator(operator);
+  document.querySelector(".clear").innerHTML = "AC";
   console.clear();
 }
 
@@ -159,4 +161,8 @@ function clearCheckedOperator(value) {
   } else if (value === "/") {
     document.querySelector(".divide").classList.remove("check");
   }
+}
+
+function toggleClearAllClear() {
+  document.querySelector(".clear").innerHTML = "C";
 }
