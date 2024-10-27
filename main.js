@@ -18,18 +18,21 @@ function evaluateByOperators(value) {
     operator = value;
     left = right;
     right = "";
+    displayInConsole();
   } else if (operator) {
+    displayCalculation(formatResult(left, operator, right));
     left = eval(left + operator + right);
     right = "";
-    displayCalculation(left);
+    displayInConsole();
   }
-  displayInConsole();
 }
 
 function evaluateCalculation() {
+  displayCalculation(formatResult(left, operator, right));
   right = eval(left + operator + right);
+  left = "";
   operator = "";
-  displayCalculation(right);
+  displayInConsole();
 }
 
 function displayValue(value) {
@@ -72,4 +75,10 @@ function toggleNegative() {
   displayCalculation(right);
 }
 
-change;
+function formatResult(left, operator, right) {
+  const result = Number(eval(left + operator + right));
+  const decimal = result.toString().split(".")[1]?.length || 0;
+  console.log(`result: ${result}, decimal:${decimal}`);
+
+  return result.toFixed(Math.min(8, decimal));
+}
