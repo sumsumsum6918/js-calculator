@@ -55,6 +55,9 @@ function displayValue(value) {
 }
 
 function displayDot() {
+  if (right.includes(".")) {
+    return;
+  }
   right += ".";
   displayCalculation(right);
 }
