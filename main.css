@@ -48,10 +48,32 @@ body {
 }
 .black {
   background-color: rgb(60, 57, 57);
+  transition: background-color 0.3s ease-in-out;
 }
+.black:hover,
+.black:active {
+  background-color: rgb(126, 126, 126);
+}
+
 .gray {
-  background-color: darkgray;
+  font-size: 26px;
+  background-color: darkgrey;
+  color: rgb(38, 38, 46);
+  transition: background-color 0.3s ease-in-out;
+}
+.gray:hover,
+.gray:active {
+  background-color: rgb(218, 218, 218);
 }
 .orange {
-  background-color: orange;
+  background-color: rgb(255, 157, 0);
+  font-size: 2.5rem;
+  transition: background-color 0.3s;
+}
+.orange:hover {
+  background-color: rgb(255, 215, 142);
+}
+.check {
+  background-color: white;
+  color: rgb(255, 157, 0);
 }

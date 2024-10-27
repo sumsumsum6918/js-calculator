@@ -26,11 +26,16 @@ function evaluate() {
 }
 
 function evaluateByOperators(newOperator) {
+  clearCheckedOperator(operator);
+
   if (!left && !right) {
+    operator = newOperator;
+    checkedOperator(operator);
     return;
   }
   if (!right && operator) {
     operator = newOperator;
+    checkedOperator(operator);
     displayInConsole();
 
     return;
@@ -45,14 +50,20 @@ function evaluateByOperators(newOperator) {
     left = newResult;
     operator = newOperator;
   }
+  checkedOperator(operator);
   right = "";
   displayInConsole();
 }
 
 function evaluateCalculation() {
+  if (!right) {
+    right = left;
+    clearCheckedOperator(operator);
+  }
   const newResult = evaluate();
   formatResult();
   right = newResult;
+
   left = "";
   operator = "";
   displayInConsole();
@@ -76,7 +87,9 @@ function displayValue(value) {
     right = right.slice(1);
   }
   right += value;
+  clearCheckedOperator(operator);
   displayCalculation(right);
+  toggleClearAllClear();
 }
 
 function displayDot() {
@@ -88,6 +101,9 @@ function displayDot() {
 }
 
 function makePercentage() {
+  if (right === "0") {
+    return;
+  }
   if (!operator) {
     right = (right / 100).toString();
     displayCalculation(right);
@@ -118,6 +134,8 @@ function clearDisplay() {
   operator = "";
   result = "";
   displayCalculation(right);
+  clearCheckedOperator(operator);
+  document.querySelector(".clear").innerHTML = "AC";
   console.clear();
 }
 
@@ -158,4 +176,31 @@ function displayInConsole() {
   console.log(
     `Left: ${left}; Operator: ${operator}; Right: ${right}; Result = ${result}`
   );
+}
+function checkedOperator(value) {
+  if (value === "+") {
+    document.querySelector(".add").classList.add("check");
+  } else if (value === "-") {
+    document.querySelector(".minus").classList.add("check");
+  } else if (value === "*") {
+    document.querySelector(".multiply").classList.add("check");
+  } else if (value === "/") {
+    document.querySelector(".divide").classList.add("check");
+  }
+}
+
+function clearCheckedOperator(value) {
+  if (value === "+") {
+    document.querySelector(".add").classList.remove("check");
+  } else if (value === "-") {
+    document.querySelector(".minus").classList.remove("check");
+  } else if (value === "*") {
+    document.querySelector(".multiply").classList.remove("check");
+  } else if (value === "/") {
+    document.querySelector(".divide").classList.remove("check");
+  }
+}
+
+function toggleClearAllClear() {
+  document.querySelector(".clear").innerHTML = "C";
 }
