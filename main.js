@@ -4,15 +4,37 @@ let left = "";
 let operator = "";
 let result = "";
 
-function evaluateByOperators(value) {
+function evaluate() {
+  const leftValue = parseFloat(left);
+  const rightValue = parseFloat(right);
+
+  const getValue = () => {
+    if (operator === "+") {
+      return leftValue + rightValue;
+    }
+    if (operator === "-") {
+      return leftValue - rightValue;
+    }
+    if (operator === "*") {
+      return leftValue * rightValue;
+    }
+    if (operator === "/") {
+      return leftValue / rightValue;
+    }
+  };
+  return getValue().toString();
+}
+
+function evaluateByOperators(newOperator) {
   clearCheckedOperator(operator);
+
   if (!left && !right) {
-    operator = value;
+    operator = newOperator;
     checkedOperator(operator);
     return;
   }
   if (!right && operator) {
-    operator = value;
+    operator = newOperator;
     checkedOperator(operator);
     displayInConsole();
 
@@ -20,19 +42,17 @@ function evaluateByOperators(value) {
   }
 
   if (!operator) {
-    operator = value;
-    checkedOperator(value);
+    operator = newOperator;
     left = right;
-    right = "";
-    displayInConsole();
-  } else if (operator) {
-    formatResult(left, operator, right);
-    left = eval(left + operator + right);
-    operator = value;
-    checkedOperator(operator);
-    right = "";
-    displayInConsole();
+  } else {
+    const newResult = evaluate();
+    formatResult();
+    left = newResult;
+    operator = newOperator;
   }
+  checkedOperator(operator);
+  right = "";
+  displayInConsole();
 }
 
 function evaluateCalculation() {
@@ -40,8 +60,10 @@ function evaluateCalculation() {
     right = left;
     clearCheckedOperator(operator);
   }
-  formatResult(left, operator, right);
-  right = eval(left + operator + right);
+  const newResult = evaluate();
+  formatResult();
+  right = newResult;
+
   left = "";
   operator = "";
   displayInConsole();
@@ -60,6 +82,9 @@ function displayValue(value) {
   if (result && !operator) {
     result = "";
     right = "";
+  }
+  if (right.startsWith("0") && !right.includes(".")) {
+    right = right.slice(1);
   }
   right += value;
   clearCheckedOperator(operator);
@@ -80,15 +105,15 @@ function makePercentage() {
     return;
   }
   if (!operator) {
-    right = eval(right / 100);
+    right = (right / 100).toString();
     displayCalculation(right);
   }
   if (operator === "+" || operator === "-") {
-    right = eval((right / 100) * left);
+    right = ((right / 100) * left).toString();
     displayInConsole();
   }
   if (operator === "*" || operator === "/") {
-    right = eval(right / 100);
+    right = (right / 100).toString();
     displayCalculation(right);
   }
 }
@@ -97,7 +122,7 @@ function toggleNegative() {
   if (right >= 0 && right !== "-0") {
     right = "-" + right;
   } else if (right < 0 || right === "-0") {
-    right = eval(-right);
+    right = right.replace("-", "");
   }
 
   displayCalculation(right);
@@ -114,29 +139,37 @@ function clearDisplay() {
   console.clear();
 }
 
+function getPrecision(value) {
+  if (Number(value) > 999999999) {
+    return 1;
+  }
+  if (
+    value.startsWith("0") &&
+    value.includes(".") &&
+    !["0", "-0"].includes(value)
+  ) {
+    return Math.min(
+      8,
+      value.replace(".", "").replace("0", "").replace("-", "").length || 1
+    );
+  }
+  return Math.min(9, value.replace("-", "").replace(".", "").length);
+}
+
 function displayCalculation(value) {
-  console.log(value);
-  console.log(value.toString.length);
-  // if (value.length > 10) {
-  //   const decimalLength = value.toString().split(".")[1]?.length || 0;
-  //   const length = 10 - Number(decimalLength);
-
-  //   const decimalResult = Number(value).toFixed(Math.min(9, length));
-  //   value = decimalResult;
-  // }
-
-  resultElement.innerHTML = value;
+  if (typeof value === "number") {
+    value = value.toString();
+  }
+  const precision = getPrecision(value);
+  resultElement.innerHTML = ["0", "-0"].includes(value)
+    ? value
+    : Number(value).toPrecision(precision);
   displayInConsole();
 }
 
-function formatResult(left, operator, right) {
-  result = eval(left + operator + right);
-  const decimal = result.toString().split(".")[1]?.length || 0;
-
-  console.log(`result: ${result}, decimal:${decimal}`);
-
-  const value = Number(result).toFixed(Math.min(8, decimal));
-  displayCalculation(value);
+function formatResult() {
+  result = evaluate();
+  displayCalculation(result);
 }
 
 function displayInConsole() {
