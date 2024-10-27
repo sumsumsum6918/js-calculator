@@ -7,6 +7,8 @@ let result = "";
 function evaluateByOperators(value) {
   clearCheckedOperator(operator);
   if (!left && !right) {
+    operator = value;
+    checkedOperator(operator);
     return;
   }
   if (!right && operator) {
@@ -74,6 +76,9 @@ function displayDot() {
 }
 
 function makePercentage() {
+  if (right === "0") {
+    return;
+  }
   if (!operator) {
     right = eval(right / 100);
     displayCalculation(right);
