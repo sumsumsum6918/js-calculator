@@ -68,7 +68,7 @@ body {
 .orange {
   background-color: rgb(255, 157, 0);
   font-size: 2.5rem;
-  transition: background-color 0.3s ease-in-out;
+  transition: background-color 0.3s;
 }
 .orange:hover {
   background-color: rgb(255, 215, 142);

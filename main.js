@@ -5,11 +5,13 @@ let operator = "";
 let result = "";
 
 function evaluateByOperators(value) {
+  clearCheckedOperator(operator);
   if (!left && !right) {
     return;
   }
   if (!right && operator) {
     operator = value;
+    checkedOperator(operator);
     displayInConsole();
 
     return;
@@ -17,6 +19,7 @@ function evaluateByOperators(value) {
 
   if (!operator) {
     operator = value;
+    checkedOperator(value);
     left = right;
     right = "";
     displayInConsole();
@@ -24,6 +27,7 @@ function evaluateByOperators(value) {
     formatResult(left, operator, right);
     left = eval(left + operator + right);
     operator = value;
+    checkedOperator(operator);
     right = "";
     displayInConsole();
   }
@@ -52,6 +56,7 @@ function displayValue(value) {
     right = "";
   }
   right += value;
+  clearCheckedOperator(operator);
   displayCalculation(right);
 }
 
@@ -94,6 +99,7 @@ function clearDisplay() {
   operator = "";
   result = "";
   displayCalculation(right);
+  clearCheckedOperator(operator);
   console.clear();
 }
 
@@ -126,4 +132,27 @@ function displayInConsole() {
   console.log(
     `Left: ${left}; Operator: ${operator}; Right: ${right}; Result = ${result}`
   );
+}
+function checkedOperator(value) {
+  if (value === "+") {
+    document.querySelector(".add").classList.add("check");
+  } else if (value === "-") {
+    document.querySelector(".minus").classList.add("check");
+  } else if (value === "*") {
+    document.querySelector(".multiply").classList.add("check");
+  } else if (value === "/") {
+    document.querySelector(".divide").classList.add("check");
+  }
+}
+
+function clearCheckedOperator(value) {
+  if (value === "+") {
+    document.querySelector(".add").classList.remove("check");
+  } else if (value === "-") {
+    document.querySelector(".minus").classList.remove("check");
+  } else if (value === "*") {
+    document.querySelector(".multiply").classList.remove("check");
+  } else if (value === "/") {
+    document.querySelector(".divide").classList.remove("check");
+  }
 }
