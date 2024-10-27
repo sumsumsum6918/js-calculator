@@ -2,6 +2,7 @@ const resultElement = document.getElementById("result");
 let right = "0";
 let left = "";
 let operator = "";
+let result = "";
 
 function evaluateByOperators(value) {
   if (!left && !right) {
@@ -20,7 +21,7 @@ function evaluateByOperators(value) {
     right = "";
     displayInConsole();
   } else if (operator) {
-    displayCalculation(formatResult(left, operator, right));
+    formatResult(left, operator, right);
     left = eval(left + operator + right);
     right = "";
     displayInConsole();
@@ -28,7 +29,7 @@ function evaluateByOperators(value) {
 }
 
 function evaluateCalculation() {
-  displayCalculation(formatResult(left, operator, right));
+  formatResult(left, operator, right);
   right = eval(left + operator + right);
   left = "";
   operator = "";
@@ -44,6 +45,9 @@ function displayValue(value) {
   }
   if (right === "-0") {
     right = "-";
+  }
+  if (result && right) {
+    right = "";
   }
   right += value;
   displayCalculation(right);
@@ -76,9 +80,10 @@ function toggleNegative() {
 }
 
 function formatResult(left, operator, right) {
-  const result = Number(eval(left + operator + right));
+  result = Number(eval(left + operator + right));
   const decimal = result.toString().split(".")[1]?.length || 0;
   console.log(`result: ${result}, decimal:${decimal}`);
 
-  return result.toFixed(Math.min(8, decimal));
+  const value = result.toFixed(Math.min(8, decimal));
+  displayCalculation(value);
 }
